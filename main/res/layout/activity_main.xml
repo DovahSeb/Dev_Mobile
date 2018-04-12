@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_launcher_background"
+    tools:context=".MainActivity">
+
+    <ImageButton
+        android:id="@+id/buttonPlay"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_playnow" />
+
+    <ImageButton
+        android:id="@+id/buttonScore"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/ic_highscore" />
+
+</RelativeLayout>
