@@ -8,23 +8,26 @@ public class Ball {
     private RectF rect;
     private float xVelocity;
     private float yVelocity;
-    private float ballWidth;
-    private float ballHeight;
+    private float ballWidth = 15;
+    private float ballHeight = 15;
+    // X is the far left of the rectangle which forms our paddle
+    private float x;
+
+    // Y is the top coordinate
+    private float y;
 
     public Ball(int screenX, int screenY){
 
-        ballWidth = 10;
-        ballHeight = 10;
+        x = screenX / 2;
+        y = screenY - 20;
 
         // Start the ball travelling straight up at 100 pixels per second
-        xVelocity = 200;
+        xVelocity = 100;
         yVelocity = -400;
 
         // Place the ball in the centre of the screen at the bottom
         // Make it a 10 pixel x 10 pixel square
-        screenX = 10;
-        screenY = 10;
-        rect = new RectF(screenX, screenY, ballWidth, ballHeight);
+        rect = new RectF(x, y, x + ballWidth, y + ballHeight);
 
     }
 
