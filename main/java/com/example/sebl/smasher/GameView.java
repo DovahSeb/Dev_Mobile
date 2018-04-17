@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -48,6 +49,10 @@ public class GameView extends SurfaceView implements Runnable {
     // A ball
     Ball ball;
 
+    // Up to 200 bricks
+    Brick[] bricks = new Brick[200];
+    int numBricks = 0;
+
     //Class constructor
     public GameView(Context context) {
         super(context);
@@ -71,9 +76,28 @@ public class GameView extends SurfaceView implements Runnable {
         // Create a ball
         ball = new Ball(screenX, screenY);
 
+        createBricksAndRestart();
+
 
     }
 
+    public void createBricksAndRestart() {
+
+        // Put the ball back to the start
+        ball.reset(screenX, screenY);
+
+        int brickWidth = screenX / 8;
+        int brickHeight = screenY / 10;
+
+        // Build a wall of bricks
+        numBricks = 0;
+        for (int column = 0; column < 8; column++) {
+            for (int row = 0; row < 3; row++) {
+                bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight);
+                numBricks++;
+            }
+        }
+    }
 
     @Override
     public void run() {
@@ -103,6 +127,47 @@ public class GameView extends SurfaceView implements Runnable {
 
         ball.update(fps);
 
+        // Check for ball colliding with a brick
+        for (int i = 0; i < numBricks; i++) {
+            if (bricks[i].getVisibility()) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    bricks[i].setInvisible();
+                    ball.reverseYVelocity();
+                }
+            }
+        }
+
+        // Check for ball colliding with paddle
+        if(RectF.intersects(platform.getRect(),ball.getRect())) {
+            ball.setRandomXVelocity();
+            ball.reverseYVelocity();
+            ball.clearObstacleY(platform.getRect().top + 20);
+        }
+
+        // Bounce the ball back when it hits the bottom of screen
+        if (ball.getRect().bottom > screenY) {
+            ball.reverseYVelocity();
+            ball.clearObstacleY(screenY - 2);
+        }
+
+        // Bounce the ball back when it hits the top of screen
+        if(ball.getRect().top < 0){
+            ball.reverseYVelocity();
+            ball.clearObstacleY(10);
+        }
+
+        // If the ball hits left wall bounce
+        if(ball.getRect().left < 0){
+            ball.reverseXVelocity();
+            ball.clearObstacleX(2);
+        }
+
+        // If the ball hits right wall bounce
+        if(ball.getRect().right > screenX - 10){
+            ball.reverseXVelocity();
+            ball.clearObstacleX(screenX - 40);
+        }
+
     }
 
     public void draw() {
@@ -126,6 +191,14 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Change the brush color for drawing
             paint.setColor(Color.argb(255, 249, 129, 0));
+
+
+            // Draw the bricks if visible
+            for(int i = 0; i < numBricks; i++){
+                if(bricks[i].getVisibility()) {
+                    canvas.drawRect(bricks[i].getRect(), paint);
+                }
+            }
 
             // Unlock the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);

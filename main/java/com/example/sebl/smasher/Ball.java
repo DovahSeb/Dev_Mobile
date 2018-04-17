@@ -8,8 +8,8 @@ public class Ball {
     private RectF rect;
     private float xVelocity;
     private float yVelocity;
-    private float ballWidth = 15;
-    private float ballHeight = 15;
+    private float ballWidth = 20;
+    private float ballHeight = 20;
     // X is the far left of the rectangle which forms our paddle
     private float x;
 
@@ -19,7 +19,7 @@ public class Ball {
     public Ball(int screenX, int screenY){
 
         x = screenX / 2;
-        y = screenY - 20;
+        y = screenY - 50;
 
         // Start the ball travelling straight up at 100 pixels per second
         xVelocity = 100;
