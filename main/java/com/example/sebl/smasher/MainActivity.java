@@ -13,7 +13,7 @@ import android.media.Image;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //image button
-    private ImageButton buttonPlay;
+    private Button buttonPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //getting the button
-        buttonPlay = (ImageButton) findViewById(R.id.buttonPlay);
+        buttonPlay = (Button) findViewById(R.id.buttonPlay);
 
         //adding a click listener
         buttonPlay.setOnClickListener(this);
@@ -36,4 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //starting game activity
         startActivity(new Intent(this, GameActivity.class));
     }
+
+
 }
